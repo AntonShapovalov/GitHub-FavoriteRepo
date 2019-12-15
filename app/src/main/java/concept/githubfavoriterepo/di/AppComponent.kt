@@ -1,5 +1,6 @@
 package concept.githubfavoriterepo.di
 
+import concept.githubfavoriterepo.ui.details.RepoDetailsViewModel
 import concept.githubfavoriterepo.ui.list.ReposViewModel
 import dagger.Component
 import javax.inject.Singleton
@@ -12,5 +13,7 @@ import javax.inject.Singleton
 interface AppComponent {
 
     fun inject(reposViewModel: ReposViewModel)
+
+    fun inject(repoDetailsViewModel: RepoDetailsViewModel)
 
 }

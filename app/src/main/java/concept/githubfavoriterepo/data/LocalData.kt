@@ -26,7 +26,7 @@ class LocalData @Inject constructor() {
 
     private val reposList = ArrayList<RepoEntry>()
     private val favorites = CopyOnWriteArraySet<String>()
-    private var relay: BehaviorRelay<Boolean> = BehaviorRelay.create()
+    private var relay: BehaviorRelay<Int> = BehaviorRelay.create()
     private var disposable = Disposables.disposed()
 
     fun saveRepos(repos: List<RepoEntry>) {
@@ -41,7 +41,7 @@ class LocalData @Inject constructor() {
 
     fun getReposObservable(): Observable<List<RepoEntry>> = Observable.just(reposList)
 
-    fun updateFavorites(item: RepoEntry) {
+    fun updateFavorites(item: RepoEntry, position: Int) {
         if (item.isFavorite) {
             favorites.add(item.stringId)
         } else {
@@ -50,12 +50,14 @@ class LocalData @Inject constructor() {
         if (disposable.isDisposed) {
             disposable = saveFavoritesIds()
         }
-        relay.accept(item.isFavorite)
+        relay.accept(position)
     }
 
     fun getFavoritesIds(): Set<String>? = preferences.getStringSet(FAVORITES_KEY, emptySet())
 
-    private fun saveFavoritesIds() = relay.toFlowable(BackpressureStrategy.LATEST)
+    fun favoritesUpdate(): Flowable<Int> = relay.toFlowable(BackpressureStrategy.LATEST)
+
+    private fun saveFavoritesIds() = favoritesUpdate()
         .switchMap { Flowable.just(favorites) }
         .doOnNext { preferences.edit().putStringSet(FAVORITES_KEY, it).apply() }
         .subscribeOn(Schedulers.io())

@@ -28,7 +28,11 @@ class RemoteDataTest {
             .doOnNext { list ->
                 Assert.assertTrue(list.isNotEmpty())
                 Assert.assertTrue(list[0].name.isNotEmpty())
-                list.forEach { println(it) }
+                list.forEach {
+                    println(it)
+                    Assert.assertNotNull(it.stringId)
+                    Assert.assertNotNull(it.stringStarCount)
+                }
             }
             .subscribe(testObserver)
         testObserver.assertNoErrors()

@@ -7,9 +7,11 @@ import concept.githubfavoriterepo.data.LocalData
 import concept.githubfavoriterepo.data.RemoteData
 import concept.githubfavoriterepo.ui.activity.*
 import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposables
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import javax.inject.Inject
 
 class ReposViewModel : ViewModel() {
@@ -19,9 +21,11 @@ class ReposViewModel : ViewModel() {
 
     val state = StateLiveData()
     val progress = MutableLiveData<Boolean>()
+    val favoritesUpdate = MutableLiveData<Int>()
 
     private var initDisposable = Disposables.empty()
     private var dataDisposable = Disposables.disposed()
+    private var favoritesDisposable = Disposables.empty()
 
     /**
      * Initialization of Dagger in background
@@ -49,13 +53,23 @@ class ReposViewModel : ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { progress.postValue(true) }
             .doFinally { progress.postValue(false) }
-            .subscribe({ state.value = ReposLoaded(it) }, { state.value = StateError(it) })
+            .subscribe({
+                state.value = ReposLoaded(it)
+                subscribeToFavoritesUpdate()
+            }, { state.value = StateError(it) })
+    }
+
+    private fun subscribeToFavoritesUpdate() {
+        favoritesDisposable = localData.favoritesUpdate()
+            .switchMap { Flowable.just(it) }
+            .subscribe({ favoritesUpdate.value = it }, Timber::e)
     }
 
     override fun onCleared() {
         super.onCleared()
         initDisposable.dispose()
         dataDisposable.dispose()
+        favoritesDisposable.dispose()
     }
 
 }

@@ -23,7 +23,7 @@ import timber.log.Timber
 class ReposListFragment : Fragment() {
 
     private lateinit var viewModel: ReposViewModel
-    private val adapter = ReposListAdapter { showRepoDetails() }
+    private val adapter = ReposListAdapter { showRepoDetails(it) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_repos_list, container, false)
@@ -43,6 +43,7 @@ class ReposListFragment : Fragment() {
         viewModel = ViewModelProviders.of(act)
             .get(ReposViewModel::class.java)
             .also { vm -> vm.state.observe(this, Observer { onStateChanged(it) }) }
+            .also { vm -> vm.favoritesUpdate.observe(this, Observer { onFavoritesUpdate(it) }) }
     }
 
     private fun onStateChanged(state: ViewModelState?) {
@@ -53,8 +54,13 @@ class ReposListFragment : Fragment() {
         }
     }
 
-    private fun showRepoDetails() {
-        findNavController().navigate(R.id.dest_action_repo_details)
+    private fun showRepoDetails(position: Int) {
+        val direction = ReposListFragmentDirections.actionOpenRepoDetails(position)
+        findNavController().navigate(direction)
+    }
+
+    private fun onFavoritesUpdate(position: Int) {
+        adapter.notifyItemChanged(position)
     }
 
 }

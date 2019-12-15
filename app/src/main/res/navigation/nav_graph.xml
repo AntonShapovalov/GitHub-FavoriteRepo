@@ -12,7 +12,7 @@
         tools:layout="@layout/fragment_repos_list">
 
         <action
-            android:id="@+id/dest_action_repo_details"
+            android:id="@+id/action_open_repo_details"
             app:destination="@id/dest_repo_details"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
@@ -24,6 +24,11 @@
         android:id="@+id/dest_repo_details"
         android:name="concept.githubfavoriterepo.ui.details.RepoDetailsFragment"
         android:label="@string/fragment_repo_details"
-        tools:layout="@layout/fragment_repo_details" />
+        tools:layout="@layout/fragment_repo_details">
+
+        <argument
+            android:name="position"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>

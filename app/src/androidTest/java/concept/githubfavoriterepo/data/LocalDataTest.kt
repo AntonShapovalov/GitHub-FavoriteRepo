@@ -55,7 +55,7 @@ class LocalDataTest {
         // simulation of too often button click
         arrayOf(true, false, true, false, true).forEach {
             repo.isFavorite = it
-            localData.updateFavorites(repo)
+            localData.updateFavorites(repo,0)
         }
         CountDownLatch(1).await(1, TimeUnit.SECONDS)
         val favorites = localData.getFavoritesIds()
