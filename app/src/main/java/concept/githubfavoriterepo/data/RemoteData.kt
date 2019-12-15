@@ -1,11 +1,11 @@
 package concept.githubfavoriterepo.data
 
-import rx.Observable
+import io.reactivex.Observable
 import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Provide GitHub repositories data from [ApiService]
+ * Provides GitHub repositories data from [ApiService]
  */
 @Singleton
 class RemoteData @Inject constructor() {

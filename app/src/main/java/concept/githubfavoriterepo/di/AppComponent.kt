@@ -1,6 +1,5 @@
 package concept.githubfavoriterepo.di
 
-import android.content.Context
 import dagger.Component
 import javax.inject.Singleton
 
@@ -10,7 +9,5 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [AppModule::class, ApiModule::class])
 interface AppComponent {
-
-    fun context(): Context
 
 }

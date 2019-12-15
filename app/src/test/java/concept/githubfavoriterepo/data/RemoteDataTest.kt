@@ -2,10 +2,10 @@ package concept.githubfavoriterepo.data
 
 import concept.githubfavoriterepo.di.ApiModule
 import concept.githubfavoriterepo.di.DaggerApiTestComponent
+import io.reactivex.observers.TestObserver
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import rx.observers.TestSubscriber
 import javax.inject.Inject
 
 /**
@@ -24,17 +24,16 @@ class RemoteDataTest {
 
     @Test
     fun getRepos() {
-        val testSubscriber = TestSubscriber<List<RepoEntry>>()
+        val testObserver = TestObserver<List<RepoEntry>>()
         remoteModel.getRepos()
             .doOnNext { list ->
                 Assert.assertTrue(list.isNotEmpty())
                 Assert.assertTrue(list[0].name.isNotEmpty())
                 list.forEach { println(it) }
             }
-            .subscribe(testSubscriber)
-        testSubscriber.assertNoErrors()
-        testSubscriber.assertCompleted()
-        testSubscriber.assertUnsubscribed()
+            .subscribe(testObserver)
+        testObserver.assertNoErrors()
+        testObserver.assertComplete()
     }
 
 }

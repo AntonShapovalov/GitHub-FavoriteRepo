@@ -1,6 +1,7 @@
 package concept.githubfavoriterepo.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -13,6 +14,7 @@ class AppModule(private val context: Context) {
 
     @Singleton
     @Provides
-    fun provideContext(): Context = context
+    fun providePreferences(): SharedPreferences =
+        context.getSharedPreferences(context.packageName + ".settings", Context.MODE_PRIVATE)
 
 }
