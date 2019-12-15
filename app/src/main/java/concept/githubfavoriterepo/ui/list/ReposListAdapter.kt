@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import concept.githubfavoriterepo.R
+import concept.githubfavoriterepo.data.RepoEntry
 import kotlinx.android.synthetic.main.list_item.view.*
 
 /**
@@ -13,32 +14,31 @@ import kotlinx.android.synthetic.main.list_item.view.*
 class ReposListAdapter(private val onItemClick: (Int) -> Unit) :
     RecyclerView.Adapter<ReposListAdapter.ViewHolder>() {
 
-    private val items = arrayListOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+    private val items: ArrayList<RepoEntry> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.list_item, parent, false)
-        return ViewHolder(v)
+        val holder = ViewHolder(v)
+        v.setOnClickListener {
+            val position = holder.adapterPosition
+            if (position >= 0) onItemClick(position)
+        }
+        return holder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
         val view = holder.itemView
-        view.textViewRepositoryName.text = "Item # $item"
-        view.setOnClickListener { onItemClick(position) }
+        view.textViewRepositoryName.text = item.name
     }
 
     override fun getItemCount(): Int = items.size
 
-//    fun setItems(newItems: List<Int>) {
-//        items.clear()
-//        items.addAll(newItems)
-//        notifyDataSetChanged()
-//    }
-//
-//    fun clearItems() {
-//        items.clear()
-//        notifyDataSetChanged()
-//    }
+    fun setItems(newItems: List<RepoEntry>) {
+        items.clear()
+        items.addAll(newItems)
+        notifyDataSetChanged()
+    }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 

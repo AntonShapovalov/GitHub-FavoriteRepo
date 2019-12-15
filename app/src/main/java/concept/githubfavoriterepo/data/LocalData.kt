@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.disposables.Disposables
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
@@ -37,6 +38,8 @@ class LocalData @Inject constructor() {
     }
 
     fun getRepos() = reposList
+
+    fun getReposObservable(): Observable<List<RepoEntry>> = Observable.just(reposList)
 
     fun updateFavorites(item: RepoEntry) {
         if (item.isFavorite) {
