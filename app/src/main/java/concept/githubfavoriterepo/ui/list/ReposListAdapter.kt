@@ -30,6 +30,9 @@ class ReposListAdapter(private val onItemClick: (Int) -> Unit) :
         val item = items[position]
         val view = holder.itemView
         view.textViewRepositoryName.text = item.name
+        view.textViewStarCount.text = item.stargazers_count.toString()
+        val resId = if (item.isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorite_border
+        view.imageViewFavorite.setImageResource(resId)
     }
 
     override fun getItemCount(): Int = items.size
