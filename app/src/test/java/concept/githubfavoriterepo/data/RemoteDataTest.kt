@@ -13,8 +13,7 @@ import javax.inject.Inject
  */
 class RemoteDataTest {
 
-    @Inject
-    lateinit var remoteModel: RemoteData
+    @Inject lateinit var remoteModel: RemoteData
 
     @Before
     fun setUp() = DaggerApiTestComponent.builder()

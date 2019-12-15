@@ -10,8 +10,7 @@ import javax.inject.Singleton
 @Singleton
 class RemoteData @Inject constructor() {
 
-    @Inject
-    lateinit var apiService: ApiService
+    @Inject lateinit var apiService: ApiService
 
     fun getRepos(): Observable<List<RepoEntry>> = apiService
         .getRepos()

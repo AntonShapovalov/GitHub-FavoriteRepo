@@ -36,7 +36,9 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
     // rx-java
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    ext.rxjavaVersion = '2.1.1'
+    implementation "io.reactivex.rxjava2:rxandroid:$rxjavaVersion"
+    implementation "com.jakewharton.rxrelay2:rxrelay:$rxjavaVersion"
     implementation 'io.reactivex.rxjava2:rxjava:2.2.15'
     // dagger
     ext.daggerVersion = '2.25.2'
