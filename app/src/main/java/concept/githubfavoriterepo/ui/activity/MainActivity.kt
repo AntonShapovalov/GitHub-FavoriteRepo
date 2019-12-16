@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showError(text: String?) {
         Snackbar.make(coordinatorLayout, text ?: "Unknown error", Snackbar.LENGTH_INDEFINITE)
-            .setAction(R.string.text_retry) { viewModel.initAppComponent(this) }
+            .setAction(R.string.text_retry) { viewModel.loadData() }
             .show()
     }
 

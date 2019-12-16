@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import concept.githubfavoriterepo.data.LocalData
 import concept.githubfavoriterepo.data.RemoteData
 import concept.githubfavoriterepo.ui.activity.*
-import io.reactivex.Completable
 import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposables
 import io.reactivex.schedulers.Schedulers
@@ -31,11 +31,15 @@ class ReposViewModel : ViewModel() {
      * Initialization of Dagger in background
      */
     fun initAppComponent(activity: FragmentActivity) {
-        initDisposable = Completable.fromCallable { activity.appComponent.inject(this) }
-            .subscribeOn(Schedulers.computation())
+        if (state.value != StateIdle) return
+        initDisposable = Observable.fromCallable { activity.appComponent }
+            .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { progress.postValue(true) }
-            .subscribe({ state.value = InitCompleted }, { state.value = StateError(it) })
+            .subscribe({
+                it.inject(this)
+                state.value = InitCompleted
+            }, { state.value = StateError(it) })
     }
 
     /**
