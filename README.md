@@ -8,7 +8,7 @@ To keep things simple, app always loads only Square Inc. repositories.
 #### Structure:
 
 1. Repositories list screen - shows list of Square Inc. repositories
-2. Repository details screen - displays repository description and button "add to favorires"
+2. Repository details screen - displays repository description and button "add to favorites"
 
 #### How to install
 
