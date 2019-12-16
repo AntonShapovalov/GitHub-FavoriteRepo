@@ -1,6 +1,6 @@
 # GitHubFavoriteRepo
 
-#### Android application concept to dispaly Square Inc. repositories with possibility add local bookmarks 
+#### Android application concept to display Square Inc. repositories with possibility add local bookmarks 
 
 Project demonstrates how to use AndroidX, Navigation Component, Kotlin, Android Architecture Components, Dagger, RxJava and Retrofit to get remote data and add local bookmarks.
 To keep things simple, app always loads only Square Inc. repositories.
