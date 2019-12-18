@@ -6,7 +6,6 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposables
-import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import java.util.concurrent.CopyOnWriteArraySet
 import javax.inject.Inject
@@ -60,7 +59,6 @@ class LocalData @Inject constructor() {
     private fun saveFavoritesIds() = favoritesUpdate()
         .switchMap { Flowable.just(favorites) }
         .doOnNext { preferences.edit().putStringSet(FAVORITES_KEY, it).apply() }
-        .subscribeOn(Schedulers.io())
         .subscribe({ Timber.d("Favorites saved") }, Timber::e)
 
     fun clear() {

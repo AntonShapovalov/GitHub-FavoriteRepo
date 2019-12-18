@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import concept.githubfavoriterepo.R
-import concept.githubfavoriterepo.ui.activity.InitCompleted
 import concept.githubfavoriterepo.ui.activity.ReposLoaded
 import concept.githubfavoriterepo.ui.activity.ViewModelState
 import concept.githubfavoriterepo.ui.activity.name
@@ -44,14 +43,12 @@ class ReposListFragment : Fragment() {
             .get(ReposViewModel::class.java)
             .also { vm -> vm.state.observe(this, Observer { onStateChanged(it) }) }
             .also { vm -> vm.favoritesUpdate.observe(this, Observer { onFavoritesUpdate(it) }) }
+            .also { it.loadData() }
     }
 
     private fun onStateChanged(state: ViewModelState?) {
         Timber.d(state?.name())
-        when (state) {
-            is InitCompleted -> viewModel.loadData()
-            is ReposLoaded -> adapter.setItems(state.repos)
-        }
+        if (state is ReposLoaded) adapter.setItems(state.repos)
     }
 
     private fun showRepoDetails(position: Int) {

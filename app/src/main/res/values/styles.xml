@@ -8,4 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!--Style for Splash Screen-->
+    <style name="MainActivityTheme" parent="AppTheme">
+        <item name ="android:windowBackground">@drawable/activity_background</item>
+    </style>
+
 </resources>

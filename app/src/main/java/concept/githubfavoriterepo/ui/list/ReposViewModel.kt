@@ -1,13 +1,13 @@
 package concept.githubfavoriterepo.ui.list
 
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import concept.githubfavoriterepo.data.LocalData
 import concept.githubfavoriterepo.data.RemoteData
-import concept.githubfavoriterepo.ui.activity.*
+import concept.githubfavoriterepo.ui.activity.ReposLoaded
+import concept.githubfavoriterepo.ui.activity.StateError
+import concept.githubfavoriterepo.ui.activity.StateLiveData
 import io.reactivex.Flowable
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposables
 import io.reactivex.schedulers.Schedulers
@@ -23,24 +23,8 @@ class ReposViewModel : ViewModel() {
     val progress = MutableLiveData<Boolean>()
     val favoritesUpdate = MutableLiveData<Int>()
 
-    private var initDisposable = Disposables.empty()
     private var dataDisposable = Disposables.disposed()
     private var favoritesDisposable = Disposables.empty()
-
-    /**
-     * Initialization of Dagger in background
-     */
-    fun initAppComponent(activity: FragmentActivity) {
-        if (state.value != StateIdle) return
-        initDisposable = Observable.fromCallable { activity.appComponent }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { progress.postValue(true) }
-            .subscribe({
-                it.inject(this)
-                state.value = InitCompleted
-            }, { state.value = StateError(it) })
-    }
 
     /**
      * Load repositories from local cache or remote api
@@ -71,7 +55,6 @@ class ReposViewModel : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
-        initDisposable.dispose()
         dataDisposable.dispose()
         favoritesDisposable.dispose()
     }

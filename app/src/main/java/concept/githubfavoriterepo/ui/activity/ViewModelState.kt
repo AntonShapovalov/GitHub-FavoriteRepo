@@ -8,7 +8,6 @@ import concept.githubfavoriterepo.data.RepoEntry
  */
 sealed class ViewModelState
 object StateIdle : ViewModelState()
-object InitCompleted : ViewModelState()
 data class StateError(val throwable: Throwable) : ViewModelState()
 data class ReposLoaded(val repos: List<RepoEntry>) : ViewModelState()
 

@@ -24,9 +24,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setupActionBarWithNavController(findNavController(R.id.nav_host_fragment))
         viewModel = ViewModelProviders.of(this).get(ReposViewModel::class.java)
+            .also { this.appComponent.inject(it) }
             .also { vm -> vm.progress.observe(this, Observer { updateProgress(it) }) }
             .also { vm -> vm.state.observe(this, Observer { onStateChanged(it) }) }
-            .also { it.initAppComponent(this) }
     }
 
     override fun onSupportNavigateUp(): Boolean = findNavController(R.id.nav_host_fragment).navigateUp()
